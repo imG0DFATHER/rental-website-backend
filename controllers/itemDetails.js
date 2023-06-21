@@ -6,7 +6,11 @@ const router = express.Router();
 
 export const readItemsByUser = async (req, res) => {
   // const items = await itemDetails.find().limit(1);
-  const items = await itemDetails.find();
+  //req._id
+  const items = await itemDetails.find({ user_Id: req.body.user_Id });
+  // console.log(items);
+  console.log("post hi");
+  console.log(req.body);
   console.log(items);
   return res.status(200).json({ items });
   //by user, find({user}).select({name:1})
@@ -84,17 +88,37 @@ export const createItemDetails = async (req, res) => {
   }
 };
 
-export const updateItemDetails = async (id) => {
+export const updateItemDetails = async (req, res) => {
   // const item = new mongoose.model("item", itemDetails);
+  const {
+    itemName,
+    category,
+    ratePerDay,
+    ratePerWeek,
+    ratePerMonth,
+    about,
+    quantity,
+    location,
+    securityMoney,
+    objectId,
+  } = req.body;
   console.log("entered");
   try {
     console.log("entered yo");
     // const result = await itemDetails.updateOne({_id},{
     const updatedResult = await itemDetails.findByIdAndUpdate(
-      { _id: "648f7237bc0fea5d201bf89b" },
+      { _id: objectId },
       {
         $set: {
-          itemName: "Thar 4x4",
+          itemName,
+          category,
+          ratePerDay,
+          ratePerWeek,
+          ratePerMonth,
+          about,
+          quantity,
+          location,
+          securityMoney,
         },
       },
       {
@@ -109,14 +133,16 @@ export const updateItemDetails = async (id) => {
 };
 // updateItemDetails("648f7237bc0fea5d201bf89b");
 
-export const deleteItemDetails = async (_id) => {
+export const deleteItemDetails = async (req, res) => {
   try {
-    const deletedResult = await itemDetails.findByIdAndDelete({ _id });
+    const { objectId } = req.body;
+    const deletedResult = await itemDetails.findByIdAndDelete({
+      _id: objectId,
+    });
     console.log(deletedResult);
   } catch (error) {
     console.log(error);
   }
 };
-deleteItemDetails("64899842cade01078f11d97b");
 
 export default router;
