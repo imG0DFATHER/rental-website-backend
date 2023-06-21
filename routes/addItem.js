@@ -14,9 +14,10 @@ const router = express.Router();
 //   res.send(req.userID);
 // });
 
-router.get("/readitem", readItemsByUser);
+// router.get("/readitem", readItemsByUser);
+router.post("/readitem", readItemsByUser);
 router.post("/additem", createItemDetails);
-router.patch("/updateitem", updateItemDetails);
-router.delete("/deleteitem", deleteItemDetails);
+router.patch("/additem", updateItemDetails);
+router.delete("/additem", deleteItemDetails);
 
 export default router;
